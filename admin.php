@@ -21,7 +21,7 @@
  * GitHub Plugin URI: git@github.com:idanm/SpotIM-WP-Plugin.git
  */
 
-require_once(__DIR__ . '/formhelper.class.php');
+require_once(__DIR__ . '/helpers/form.php');
 
 class SpotIM_Options extends FormHelper {
 
@@ -32,15 +32,21 @@ class SpotIM_Options extends FormHelper {
             file_get_contents( __DIR__ . '/data.json', true)
         );
 
-        $this->options = get_option('spotim_options');
+        $this->options = get_option($this->json_settings->option_name);
 
         if (is_admin()) {
             $this->register_settings_and_fields($this->json_settings);
         }
     }
 
-    public static function add_menu_page() {
-        add_options_page('Spot.IM', 'Spot.IM', 'manage_options', __FILE__, array('SpotIM_Options', 'options_view'));
+    public function add_menu_page() {
+        add_options_page(
+            $this->json_settings->page_options->page_title,
+            $this->json_settings->page_options->menu_title,
+            $this->json_settings->page_options->capability,
+            __FILE__,
+            array($this, $this->json_settings->page_options->view)
+        );
     }
 
     public function register_settings_and_fields($data) {
@@ -135,7 +141,8 @@ class SpotIM_Options extends FormHelper {
 
 if (is_admin()) {
     add_action('admin_menu', function () {
-            SpotIM_Options::add_menu_page();
+        $spotim = new SpotIM_Options();
+        $spotim->add_menu_page();
     });
 
     add_action('admin_init', function () {

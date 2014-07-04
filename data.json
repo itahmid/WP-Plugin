@@ -1,4 +1,10 @@
 {
+    "page_options": {
+        "page_title": "Spot.IM",
+        "menu_title": "Spot.IM",
+        "capability": "manage_options",
+        "view": "options_view"
+    },
     "option_name": "spotim_options",
     "sections": [
         {
