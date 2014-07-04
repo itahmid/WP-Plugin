@@ -25,13 +25,17 @@ require_once(__DIR__ . '/formhelper.class.php');
 
 class SpotIM_Options extends FormHelper {
 
-    public $options;
+    public $options, $json_settings;
 
     public function __construct() {
+        $this->json_settings = json_decode(
+            file_get_contents( __DIR__ . '/data.json', true)
+        );
+
         $this->options = get_option('spotim_options');
 
         if (is_admin()) {
-            $this->register_settings_and_fields();
+            $this->register_settings_and_fields($this->json_settings);
         }
     }
 
@@ -39,78 +43,43 @@ class SpotIM_Options extends FormHelper {
         add_options_page('Spot.IM', 'Spot.IM', 'manage_options', __FILE__, array('SpotIM_Options', 'options_view'));
     }
 
-    public function register_settings_and_fields() {
-        register_setting('spotim_options', 'spotim_options');
+    public function register_settings_and_fields($data) {
+        register_setting($data->option_name, $data->option_name);
 
-        $add_form_data = array(
-            array(
-                'id' => 'spotim_main_section',
-                'title' => 'Main',
-                'callback' => 'main_section_Callback',
-                'children' => array(
+        foreach ($data->sections as $section) {
+            add_settings_section(
+                $section->id,
+                $section->title,
+                array($this, $section->callback),
+                __FILE__
+            );
+
+            foreach ($section->fields as $field) {
+                $value  = !empty($this->options[$field->id]) ? $this->options[$field->id] : '';
+
+                add_settings_field(
+                    $field->id,
+                    $field->title,
+                    array($this, $field->callback),
+                    __FILE__,
+                    $field->section,
                     array(
-                        'id' => 'spotim_id',
-                        'title' => 'Spot\'s ID',
-                        'callback' => 'spot_id_Text',
-                        'section' => 'spotim_main_section',
-                    ),
-                    array(
-                        'id' => 'spotim_position',
-                        'title' => 'Position',
-                        'callback' => 'spot_position_Select',
-                        'section' => 'spotim_main_section',
-                    ),
-                    array(
-                        'id' => 'spotim_state',
-                        'title' => 'State',
-                        'callback' => 'spot_state_Select',
-                        'section' => 'spotim_main_section',
-                    ),
-                    array(
-                        'id' => 'spotim_power',
-                        'title' => 'Power On',
-                        'callback' => 'spot_power_Check',
-                        'section' => 'spotim_main_section',
+                        'id' => $field->id,
+                        'type' => $field->type,
+                        'group' => $data->option_name,
+                        'value' => $value
                     )
-                )
-            ),
-            array(
-                'id' => 'spotim_experimental_section',
-                'title' => 'Experimental',
-                'callback' => 'experimental_section_Callback',
-                'children' => array(
-                    array(
-                        'id' => 'spotim_mobile',
-                        'title' => 'Mobile On',
-                        'callback' => 'spot_mobile_Check',
-                        'section' => 'spotim_experimental_section',
-                    )
-                )
-            )
-        );
-
-        foreach ($add_form_data as $section) {
-            add_settings_section($section['id'], $section['title'], array($this, $section['callback']), __FILE__);
-
-            foreach ($section['children'] as $field) {
-                add_settings_field($field['id'], $field['title'], array($this, $field['callback']), __FILE__, $field['section']);
+                );
             }
         }
-
     }
 
     public static function main_section_Callback() {}
     public static function experimental_section_Callback() {}
 
     // FIELDS
-    public function add_form_fields($fields, $data) {
-        echo $this->addFields($fields, $data);
-    }
-
-    public function spot_id_Text() {
-        $value = empty($this->options['spotim_id'])?'':$this->options['spotim_id'];
-
-        echo '<input name="spotim_options[spotim_id]" type="text" value="'.$value.'" />';
+    public function add_form_field($field) {
+        echo $this->addField($field);
     }
 
     public function spot_position_Select() {
@@ -138,18 +107,6 @@ class SpotIM_Options extends FormHelper {
             echo '<option value='.$value.' '.$selected.'>'.$option.'</option>';
         }
         echo '</select>';
-    }
-
-    public function spot_power_Check() {
-        $value = empty($this->options['spotim_power'])?'':$this->options['spotim_power'];
-
-        echo '<input name="spotim_options[spotim_power]" type="checkbox" value="1" '.checked($value, 1, 0).' />';
-    }
-
-    public function spot_mobile_Check() {
-        $value = empty($this->options['spotim_mobile'])?'':$this->options['spotim_mobile'];
-
-        echo '<input name="spotim_options[spotim_mobile]" type="checkbox" value="true" '.checked($value, "true", 0).' />';
     }
 
     // Views

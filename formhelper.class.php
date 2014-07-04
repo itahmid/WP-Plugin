@@ -1,22 +1,30 @@
 <?php
 
 abstract class FormHelper {
+    public function dier($something) {
+        die(
+            var_dump(
+                $something
+            )
+        );
+    }
+
     public function isAssoc($array) {
         return is_array($array) && array_diff_key($array, array_keys(array_keys($array)));
     }
 
-    public function addFields($fields, $data) {
-        $fields = $this->isAssoc($fields) ? array($fields) : $fields;
+    public function addField($field) {
         $output;
 
-        foreach ($fields as $field) {
             switch ($field['type']) {
+                case 'checkbox':
+                    $field['value']  = !empty($field['value']) ? "1" : "0";
+                    $output = '<input name="'. $field['group'] .'['. $field['id'] .']" type="'. $field['type'] .'" value="1" '. checked($field['value'], 1, 0) .' />';
+                case 'text':
                 default:
-                    $value  = !empty($data[$field['id']]) ? $data[$field['id']] : '';
-                    $output = '<input name="'. $field['group'] .'['. $field['id'] .']" type="text" value="'. $value .'" />';
+                    $output = '<input name="'. $field['group'] .'['. $field['id'] .']" type="'. $field['type'] .'" value="'. $field['value'] .'" />';
                 break;
             }
-        }
 
         return $output;
     }
