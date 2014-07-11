@@ -1,25 +1,7 @@
 <?php
 
-abstract class FormHelper {
-    public function dier($something) {
-        die(
-            var_dump(
-                $something
-            )
-        );
-    }
-
-    public function vard($something) {
-        var_dump(
-            $something
-        );
-    }
-
-    public function isAssoc($array) {
-        return is_array($array) && array_diff_key($array, array_keys(array_keys($array)));
-    }
-
-    public function addField($field) {
+abstract class FormHelper extends UtilsHelper {
+    public function addField($field, $echo = true) {
         $output;
 
             switch ($field['type']) {
@@ -41,6 +23,12 @@ abstract class FormHelper {
                 break;
             }
 
-        return $output;
+        return $this->echoOutput($output, $echo);
+    }
+
+    public function addView($template, $data, $echo = true) {
+        $output = file_get_contents($template, true);
+
+        return $this->echoOutput($output, $echo);
     }
 }

@@ -23,6 +23,7 @@
  *
  */
 
+require_once(__DIR__ . '/helpers/utils.php');
 require_once(__DIR__ . '/helpers/form.php');
 
 class SpotIM_Options extends FormHelper {
@@ -91,10 +92,6 @@ class SpotIM_Options extends FormHelper {
     public static function main_section_Callback() {}
     public static function experimental_section_Callback() {}
 
-    public function add_field($field) {
-        echo $this->addField($field);
-    }
-
     // Views
     public static function options_view() {
         ?>
@@ -133,7 +130,7 @@ if (is_admin()) {
         $spotim = new SpotIM_Options();
 
         if ($spotim->options['spotim_power']) {
-            $spotim->embed_view();
+            $spotim->addView(__DIR__.'/views/embed.html', $spotim->options);
         }
     });
 }
