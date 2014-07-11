@@ -23,15 +23,23 @@
                     "id": "spotim_position",
                     "type": "select",
                     "title": "Position",
-                    "callback": "spot_position_Select",
-                    "section": "spotim_main_section"
+                    "callback": "add_field",
+                    "section": "spotim_main_section",
+                    "select_options": {
+                        "right": "right",
+                        "left": "left"
+                    }
                 },
                 {
                     "id": "spotim_state",
                     "type": "select",
                     "title": "State",
-                    "callback": "spot_state_Select",
-                    "section": "spotim_main_section"
+                    "callback": "add_field",
+                    "section": "spotim_main_section",
+                    "select_options": {
+                        "open": "spot-state",
+                        "close": "notices-closed-state"
+                    }
                 },
                 {
                     "id": "spotim_power",

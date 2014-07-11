@@ -63,18 +63,24 @@ class SpotIM_Options extends FormHelper {
             foreach ($section->fields as $field) {
                 $value  = !empty($this->options[$field->id]) ? $this->options[$field->id] : '';
 
+                $args = array(
+                    'id' => $field->id,
+                    'type' => $field->type,
+                    'group' => $data->option_name,
+                    'value' => $value
+                );
+
+                if ($field->type === 'select') {
+                    $args['options'] = $field->select_options;
+                }
+
                 add_settings_field(
                     $field->id,
                     $field->title,
                     array($this, $field->callback),
                     __FILE__,
                     $field->section,
-                    array(
-                        'id' => $field->id,
-                        'type' => $field->type,
-                        'group' => $data->option_name,
-                        'value' => $value
-                    )
+                    $args
                 );
             }
         }
@@ -83,36 +89,8 @@ class SpotIM_Options extends FormHelper {
     public static function main_section_Callback() {}
     public static function experimental_section_Callback() {}
 
-    // FIELDS
     public function add_field($field) {
         echo $this->addField($field);
-    }
-
-    public function spot_position_Select() {
-        $position         = empty($this->options['spotim_position'])?'':$this->options['spotim_position'];
-        $position_options = array('right', 'left');
-
-        echo '<select name="spotim_options[spotim_position]">';
-        foreach ($position_options as $option) {
-            $selected = $position == $option?'selected="selected"':'';
-            echo '<option value='.$option.' '.$selected.'>'.$option.'</option>';
-        }
-        echo '</select>';
-    }
-
-    public function spot_state_Select() {
-        $state         = empty($this->options['spotim_state'])?'':$this->options['spotim_state'];
-        $state_options = array(
-            'open'  => 'spot-state',
-            'close' => 'notices-closed-state',
-        );
-
-        echo '<select name="spotim_options[spotim_state]">';
-        foreach ($state_options as $option => $value) {
-            $selected = $state == $value?'selected="selected"':'';
-            echo '<option value='.$value.' '.$selected.'>'.$option.'</option>';
-        }
-        echo '</select>';
     }
 
     // Views
