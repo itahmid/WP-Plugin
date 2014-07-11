@@ -1,0 +1,68 @@
+{
+    "page_options": {
+        "page_title": "Spot.IM",
+        "menu_title": "Spot.IM",
+        "capability": "manage_options",
+        "view": "options_view"
+    },
+    "option_name": "spotim_options",
+    "sections": [
+        {
+            "id": "spotim_main_section",
+            "title": "Main",
+            "callback": "main_section_Callback",
+            "fields": [
+                {
+                    "id": "spotim_id",
+                    "type": "text",
+                    "title": "Spot's ID",
+                    "callback": "add_field",
+                    "section": "spotim_main_section"
+                },
+                {
+                    "id": "spotim_position",
+                    "type": "select",
+                    "title": "Position",
+                    "callback": "add_field",
+                    "section": "spotim_main_section",
+                    "select_options": {
+                        "right": "right",
+                        "left": "left"
+                    }
+                },
+                {
+                    "id": "spotim_state",
+                    "type": "select",
+                    "title": "State",
+                    "callback": "add_field",
+                    "section": "spotim_main_section",
+                    "select_options": {
+                        "open": "spot-state",
+                        "close": "notices-closed-state"
+                    }
+                },
+                {
+                    "id": "spotim_power",
+                    "type": "checkbox",
+                    "title": "Power On",
+                    "callback": "add_field",
+                    "section": "spotim_main_section"
+                }
+            ]
+        },
+        {
+            "id": "spotim_experimental_section",
+            "title": "Experimental",
+            "callback": "experimental_section_Callback",
+            "fields": [
+                {
+                    "id": "spotim_mobile",
+                    "type": "checkbox",
+                    "title": "Mobile On",
+                    "callback": "add_field",
+                    "section": "spotim_experimental_section"
+                }
+            ]
+        }
+    ]
+}
