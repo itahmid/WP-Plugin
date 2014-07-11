@@ -16,7 +16,7 @@
                     "id": "spotim_id",
                     "type": "text",
                     "title": "Spot's ID",
-                    "callback": "add_form_field",
+                    "callback": "add_field",
                     "section": "spotim_main_section"
                 },
                 {
@@ -37,7 +37,7 @@
                     "id": "spotim_power",
                     "type": "checkbox",
                     "title": "Power On",
-                    "callback": "add_form_field",
+                    "callback": "add_field",
                     "section": "spotim_main_section"
                 }
             ]
@@ -51,7 +51,7 @@
                     "id": "spotim_mobile",
                     "type": "checkbox",
                     "title": "Mobile On",
-                    "callback": "add_form_field",
+                    "callback": "add_field",
                     "section": "spotim_experimental_section"
                 }
             ]

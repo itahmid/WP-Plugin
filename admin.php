@@ -35,7 +35,7 @@ class SpotIM_Options extends FormHelper {
         $this->options = get_option($this->json_settings->option_name);
 
         if (is_admin()) {
-            $this->register_settings_and_fields($this->json_settings);
+            $this->register_form($this->json_settings);
         }
     }
 
@@ -49,7 +49,7 @@ class SpotIM_Options extends FormHelper {
         );
     }
 
-    public function register_settings_and_fields($data) {
+    public function register_form($data) {
         register_setting($data->option_name, $data->option_name);
 
         foreach ($data->sections as $section) {
@@ -84,7 +84,7 @@ class SpotIM_Options extends FormHelper {
     public static function experimental_section_Callback() {}
 
     // FIELDS
-    public function add_form_field($field) {
+    public function add_field($field) {
         echo $this->addField($field);
     }
 
