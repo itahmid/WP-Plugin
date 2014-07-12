@@ -5,20 +5,22 @@
  * Official Spot.IM WP Plugin
  *
  * @package   Spot_IM
- * @author    Idan Mitrofanov (@idanm) <idanm@spot.im>
- * @license   GPL-2.0+
- * @link      http://www.spot.im
- * @copyright 2014 Spot.IM
+ * @author      Spot.IM (@Spot_IM) <support@spot.im>
+ * @license     GPLv2
+ * @link          http://www.spot.im
+ * @copyright 2014 Spot.IM Ltd.
  *
  * @wordpress-plugin
- * Plugin Name:       Spot.IM
- * Plugin URI:        http://www.spot.im
+ * Plugin Name:     Spot.IM
+ * Plugin URI:         http://www.spot.im
  * Description:       Official Spot.IM WP Plugin
- * Version:           1.0.0
- * Author:            Idan Mitrofanov (@idanm_)
- * Author URI:      https://github.com/idanm
- * Text Domain:       SpotIM
- * GitHub Plugin URI: git@github.com:idanm/SpotIM-WP-Plugin.git
+ * Version:             1.0.0
+ * Author:              Spot.IM (@Spot_IM)
+ * Author URI:        https://github.com/SpotIM
+ * License:             GPLv2
+ * License URI:       license.txt
+ * Text Domain:     SpotIM
+ * GitHub Plugin URI: git@github.com:SpotIM/WP-Plugin.git
  */
 
 require_once(__DIR__ . '/helpers/form.php');
