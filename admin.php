@@ -1,6 +1,5 @@
 <?php
 /**
- * Spot.IM
  *
  * Official Spot.IM WP Plugin
  *
@@ -21,6 +20,7 @@
  * License URI:       license.txt
  * Text Domain:     SpotIM
  * GitHub Plugin URI: git@github.com:SpotIM/WP-Plugin.git
+ *
  */
 
 require_once(__DIR__ . '/helpers/form.php');
