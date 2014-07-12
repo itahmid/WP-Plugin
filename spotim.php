@@ -53,13 +53,13 @@ class SpotIM_Options extends FormHelper {
     }
 
     public function register_form($data) {
-        register_setting($data->option_name, $data->option_name);
+        register_setting($data->option_name, $data->option_name, array($this, $data->validation_callback));
 
         foreach ($data->sections as $section) {
             add_settings_section(
                 $section->id,
                 $section->title,
-                array($this, $section->callback),
+                function(){},
                 __FILE__
             );
 
@@ -89,8 +89,14 @@ class SpotIM_Options extends FormHelper {
         }
     }
 
-    public static function main_section_Callback() {}
-    public static function experimental_section_Callback() {}
+    public function validate_form($options) {
+
+        if (empty($options['spotim_mobile'])) {
+            $options['spotim_mobile'] = '0';
+        }
+
+        return $options;
+    }
 
     // Views
     public static function options_view() {
@@ -107,13 +113,6 @@ class SpotIM_Options extends FormHelper {
             </div>
         <?php
     }
-
-    public function embed_view() {
-        ?>
-            <div id="spot-im-root"></div><script>!function(t,e,o){function p(){var t=e.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==e.location.protocol?"https":"http")+":"+o,e.body.appendChild(t)}t.spotId="<?php echo $this->options['spotim_id'];?>",t.position="<?php echo $this->options['spotim_position'];?>",t.state="<?php echo $this->options['spotim_state'];?>",t.spotName="",t.allowDesktop=!0,t.allowMobile=<?php echo empty($this->options['spotim_mobile'])?"false":$this->options['spotim_mobile'];?>,t.containerId="spot-im-root",p()}(window.SPOTIM={},document,"//www.spot.im/embed/scripts/launcher.js");</script>
-        <?php
-    }
-
 }
 
 if (is_admin()) {

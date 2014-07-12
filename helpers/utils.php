@@ -1,17 +1,17 @@
 <?php
 
 abstract class UtilsHelper {
-    public function dier($something) {
+    public function died() {
         die(
             var_dump(
-                $something
+                func_get_args()
             )
         );
     }
 
-    public function vard($something) {
+    public function vard() {
         var_dump(
-            $something
+            func_get_args()
         );
     }
 
