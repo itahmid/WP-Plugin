@@ -99,7 +99,8 @@ class SpotIM_Options extends FormHelper {
     }
 
     // Views
-    public static function options_view() {
+    public function admin_view() {
+        // $this->addView(__DIR__.'/views/options.php');
         ?>
             <div class="wrap">
                 <h2>Spot.IM Options</h2>
