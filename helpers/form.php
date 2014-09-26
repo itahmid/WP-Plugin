@@ -1,46 +1,53 @@
 <?php
 
-abstract class FormHelper {
-    public function dier($something) {
-        die(
-            var_dump(
-                $something
-            )
-        );
+abstract class FormHelper extends UtilsHelper {
+    public function addField($field, $echo = true) {
+        $template;
+
+        switch ($field['type']) {
+            case 'select':
+                $template =  '<select name="'. $field['group'] .'['. $field['id'] .']">';
+                    foreach ($field['options'] as $key => $value) {
+                        $selected = $field['value'] === $value ? 'selected="selected"' : '';
+                        $template .= '<option value="'. $value .'" '. $selected .'>'. $key .'</option>';
+                    }
+                $template .=  '</select>';
+            break;
+            case 'checkbox':
+                $field['value']  = !empty($field['value']) ? '1' : '0';
+                $template = '<input name="'. $field['group'] .'['. $field['id'] .']" type="'. $field['type'] .'" value="1" '. checked($field['value'], 1, 0) .'  />';
+            break;
+            case 'text':
+            default:
+                $template = '<input name="'. $field['group'] .'['. $field['id'] .']" type="'. $field['type'] .'" value="'. $field['value'] .'" />';
+            break;
+        }
+
+        return $this->echoOutput($template, $echo);
     }
 
-    public function vard($something) {
-        var_dump(
-            $something
-        );
+    public function addView($view) {
+        include_once($view);
     }
 
-    public function isAssoc($array) {
-        return is_array($array) && array_diff_key($array, array_keys(array_keys($array)));
-    }
+    public function addTemplate($template, $data = array(), $echo = true) {
+        $template = file_get_contents($template, true);
 
-    public function addField($field) {
-        $output;
+        if (!empty($data)) {
+            $values = array();
+            preg_match_all('/\{+(\w+)\}+/', $template, $matches);
 
-            switch ($field['type']) {
-                case 'select':
-                    $output =  '<select name="'. $field['group'] .'['. $field['id'] .']">';
-                        foreach ($field['options'] as $key => $value) {
-                            $selected = $field['value'] === $value ? 'selected="selected"' : '';
-                            $output .= '<option value="'. $value .'" '. $selected .'>'. $key .'</option>';
-                        }
-                    $output .=  '</select>';
-                break;
-                case 'checkbox':
-                    $field['value']  = !empty($field['value']) ? '1' : '0';
-                    $output = '<input name="'. $field['group'] .'['. $field['id'] .']" type="'. $field['type'] .'" value="1" '. checked($field['value'], 1, 0) .'  />';
-                break;
-                case 'text':
-                default:
-                    $output = '<input name="'. $field['group'] .'['. $field['id'] .']" type="'. $field['type'] .'" value="'. $field['value'] .'" />';
-                break;
+            foreach ($matches[1] as $match) {
+                if (!empty($data[$match]) || $data[$match] === '0') {
+                    array_push($values, $data[$match]);
+                }
             }
 
-        return $output;
+            $template = str_replace($matches[0], $values, $template);
+        }
+
+        return $this->echoOutput(
+            $template, $echo
+        );
     }
 }

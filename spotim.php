@@ -13,7 +13,7 @@
  * Plugin Name:     Spot.IM
  * Plugin URI:         http://www.spot.im
  * Description:       Official Spot.IM WP Plugin
- * Version:             1.0.0
+ * Version:             1.1.0
  * Author:              Spot.IM (@Spot_IM)
  * Author URI:        https://github.com/SpotIM
  * License:             GPLv2
@@ -23,6 +23,7 @@
  *
  */
 
+require_once(__DIR__ . '/helpers/utils.php');
 require_once(__DIR__ . '/helpers/form.php');
 
 class SpotIM_Options extends FormHelper {
@@ -46,20 +47,20 @@ class SpotIM_Options extends FormHelper {
             $this->json_settings->page_options->page_title,
             $this->json_settings->page_options->menu_title,
             $this->json_settings->page_options->capability,
-            __FILE__,
+            'spotim.php',
             array($this, $this->json_settings->page_options->view)
         );
     }
 
     public function register_form($data) {
-        register_setting($data->option_name, $data->option_name);
+        register_setting($data->option_name, $data->option_name, array($this, $data->validation_callback));
 
         foreach ($data->sections as $section) {
             add_settings_section(
                 $section->id,
                 $section->title,
-                array($this, $section->callback),
-                __FILE__
+                function(){},
+                'spotim.php'
             );
 
             foreach ($section->fields as $field) {
@@ -80,7 +81,7 @@ class SpotIM_Options extends FormHelper {
                     $field->id,
                     $field->title,
                     array($this, $field->callback),
-                    __FILE__,
+                    'spotim.php',
                     $field->section,
                     $args
                 );
@@ -88,35 +89,23 @@ class SpotIM_Options extends FormHelper {
         }
     }
 
-    public static function main_section_Callback() {}
-    public static function experimental_section_Callback() {}
+    public function validate_form($options) {
 
-    public function add_field($field) {
-        echo $this->addField($field);
+        if (empty($options['spotim_mobile'])) {
+            $options['spotim_mobile'] = '0';
+        }
+
+        if (empty($options['spotim_id']) && !empty($options['spotim_power'])) {
+            $options['spotim_power'] = '0';
+        }
+
+        return $options;
     }
 
     // Views
-    public static function options_view() {
-        ?>
-            <div class="wrap">
-                <h2>Spot.IM Options</h2>
-                <form action="options.php" method="post">
-                    <?php
-                        settings_fields('spotim_options');
-                        do_settings_sections(__FILE__);
-                        submit_button();
-                    ?>
-                </form>
-            </div>
-        <?php
+    public function admin_view() {
+        $this->addView(__DIR__.'/views/options.php');
     }
-
-    public function embed_view() {
-        ?>
-            <div id="spot-im-root"></div><script>!function(t,e,o){function p(){var t=e.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==e.location.protocol?"https":"http")+":"+o,e.body.appendChild(t)}t.spotId="<?php echo $this->options['spotim_id'];?>",t.position="<?php echo $this->options['spotim_position'];?>",t.state="<?php echo $this->options['spotim_state'];?>",t.spotName="",t.allowDesktop=!0,t.allowMobile=<?php echo empty($this->options['spotim_mobile'])?"false":$this->options['spotim_mobile'];?>,t.containerId="spot-im-root",p()}(window.SPOTIM={},document,"//www.spot.im/embed/scripts/launcher.js");</script>
-        <?php
-    }
-
 }
 
 if (is_admin()) {
@@ -133,7 +122,7 @@ if (is_admin()) {
         $spotim = new SpotIM_Options();
 
         if ($spotim->options['spotim_power']) {
-            $spotim->embed_view();
+            $spotim->addTemplate(__DIR__.'/views/embed.html', $spotim->options);
         }
     });
 }
