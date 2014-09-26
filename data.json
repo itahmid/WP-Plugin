@@ -49,19 +49,6 @@
                     "section": "spotim_main_section"
                 }
             ]
-        },
-        {
-            "id": "spotim_experimental_section",
-            "title": "Experimental",
-            "fields": [
-                {
-                    "id": "spotim_mobile",
-                    "type": "checkbox",
-                    "title": "Mobile On",
-                    "callback": "addField",
-                    "section": "spotim_experimental_section"
-                }
-            ]
         }
     ]
 }

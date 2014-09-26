@@ -13,7 +13,7 @@
  * Plugin Name:     Spot.IM
  * Plugin URI:         http://www.spot.im
  * Description:       Official Spot.IM WP Plugin
- * Version:             1.0.0
+ * Version:             1.1.0
  * Author:              Spot.IM (@Spot_IM)
  * Author URI:        https://github.com/SpotIM
  * License:             GPLv2
@@ -47,7 +47,7 @@ class SpotIM_Options extends FormHelper {
             $this->json_settings->page_options->page_title,
             $this->json_settings->page_options->menu_title,
             $this->json_settings->page_options->capability,
-            __FILE__,
+            'spotim.php',
             array($this, $this->json_settings->page_options->view)
         );
     }
@@ -60,7 +60,7 @@ class SpotIM_Options extends FormHelper {
                 $section->id,
                 $section->title,
                 function(){},
-                __FILE__
+                'spotim.php'
             );
 
             foreach ($section->fields as $field) {
@@ -81,7 +81,7 @@ class SpotIM_Options extends FormHelper {
                     $field->id,
                     $field->title,
                     array($this, $field->callback),
-                    __FILE__,
+                    'spotim.php',
                     $field->section,
                     $args
                 );
@@ -95,24 +95,16 @@ class SpotIM_Options extends FormHelper {
             $options['spotim_mobile'] = '0';
         }
 
+        if (empty($options['spotim_id']) && !empty($options['spotim_power'])) {
+            $options['spotim_power'] = '0';
+        }
+
         return $options;
     }
 
     // Views
     public function admin_view() {
-        // $this->addView(__DIR__.'/views/options.php');
-        ?>
-            <div class="wrap">
-                <h2>Spot.IM Options</h2>
-                <form action="options.php" method="post">
-                    <?php
-                        settings_fields('spotim_options');
-                        do_settings_sections(__FILE__);
-                        submit_button();
-                    ?>
-                </form>
-            </div>
-        <?php
+        $this->addView(__DIR__.'/views/options.php');
     }
 }
 
@@ -130,7 +122,7 @@ if (is_admin()) {
         $spotim = new SpotIM_Options();
 
         if ($spotim->options['spotim_power']) {
-            $spotim->addView(__DIR__.'/views/embed.html', $spotim->options);
+            $spotim->addTemplate(__DIR__.'/views/embed.html', $spotim->options);
         }
     });
 }

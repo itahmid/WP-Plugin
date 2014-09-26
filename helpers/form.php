@@ -26,7 +26,11 @@ abstract class FormHelper extends UtilsHelper {
         return $this->echoOutput($template, $echo);
     }
 
-    public function addView($template, $data = array(), $echo = true) {
+    public function addView($view) {
+        include_once($view);
+    }
+
+    public function addTemplate($template, $data = array(), $echo = true) {
         $template = file_get_contents($template, true);
 
         if (!empty($data)) {
