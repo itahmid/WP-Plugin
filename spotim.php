@@ -56,39 +56,43 @@ class SpotIM_Options extends FormHelper {
         register_setting($data->option_name, $data->option_name, array($this, $data->validation_callback));
 
         foreach ($data->sections as $section) {
+            $section->callback = isset($section->callback) ? array($this, $section->callback) : function(){};
+
             add_settings_section(
                 $section->id,
                 $section->title,
-                function(){},
+                $section->callback,
                 'spotim.php'
             );
 
-            foreach ($section->fields as $field) {
-                $value  = !empty($this->options[$field->id]) ? $this->options[$field->id] : '';
+            if (!empty($section->fields)) {
+                foreach ($section->fields as $field) {
+                    $value  = !empty($this->options[$field->id]) ? $this->options[$field->id] : '';
 
-                $args = array(
-                    'id' => $field->id,
-                    'type' => $field->type,
-                    'group' => $data->option_name,
-                    'value' => $value
-                );
+                    $args = array(
+                        'id' => $field->id,
+                        'type' => $field->type,
+                        'group' => $data->option_name,
+                        'value' => $value
+                    );
 
-                if ($field->type === 'select') {
-                    $args['options'] = $field->select_options;
+                    if ($field->type === 'select') {
+                        $args['options'] = $field->select_options;
+                    }
+
+                    if (isset($field->description)) {
+                        $args['description'] = $field->description;
+                    }
+
+                    add_settings_field(
+                        $field->id,
+                        $field->title,
+                        array($this, $field->callback),
+                        'spotim.php',
+                        $field->section,
+                        $args
+                    );
                 }
-
-                if (isset($field->description)) {
-                    $args['description'] = $field->description;
-                }
-
-                add_settings_field(
-                    $field->id,
-                    $field->title,
-                    array($this, $field->callback),
-                    'spotim.php',
-                    $field->section,
-                    $args
-                );
             }
         }
     }
@@ -105,6 +109,10 @@ class SpotIM_Options extends FormHelper {
     // Views
     public function admin_view() {
         $this->addView(__DIR__.'/views/options.php');
+    }
+
+    public function rules_view() {
+        $this->addTemplate(__DIR__.'/views/rules.html');
     }
 }
 

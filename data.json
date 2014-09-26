@@ -42,7 +42,26 @@
                         "Open": "spot-state",
                         "Close": "notices-closed-state"
                     },
-                    "description": "Do you want your Spot to be Opened or Closed?"
+                    "description": "Do you want your Spot to be Open or Close?"
+                }
+            ]
+        },
+        {
+            "id": "spotim_rules_section",
+            "title": "Rules",
+            "description": "Section for you to decide on where to put your Spot.",
+            "callback": "rules_view",
+            "fields": [
+                {
+                    "id": "spotim_state",
+                    "type": "select",
+                    "title": "State",
+                    "callback": "addField",
+                    "section": "spotim_rules_section",
+                    "select_options": {
+                        "Open": "spot-state",
+                        "Close": "notices-closed-state"
+                    }
                 }
             ]
         }
