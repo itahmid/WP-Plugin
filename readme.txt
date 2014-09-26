@@ -1,9 +1,9 @@
 === Spot.IM ===
 Contributors: idanm
-Tags: Spot.IM, comments, chat, spot, spots, social, social plugin, message, messages, private messages, public chat
+Tags: Spot.IM, comments, chat, talk, communicate, spot, spots, social, social plugin, message, messages, private messages, public chat
 Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
+Tested up to: 4.0
+Stable tag: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,7 +38,7 @@ For more information please visit our website - [Spot.IM](https://www.spot.im).
 
 1. Install Spot.IM Plugin either via the seach option inside wordpress plugins page, or by uploading the files to your server (in the /wp-content/plugins/ directory).
 2. Activate the plugin, and go to the plugin page in Settings > Spot.IM.
-3. Fill in your Spot's ID and check the Power On checkbox for activating it on your wordpress website.
+3. Fill in your Spot's ID and start talking.
 
 Now you are set to go! :)
 

@@ -40,13 +40,6 @@
                         "open": "spot-state",
                         "close": "notices-closed-state"
                     }
-                },
-                {
-                    "id": "spotim_power",
-                    "type": "checkbox",
-                    "title": "Power On",
-                    "callback": "addField",
-                    "section": "spotim_main_section"
                 }
             ]
         }

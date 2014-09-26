@@ -95,10 +95,6 @@ class SpotIM_Options extends FormHelper {
             $options['spotim_mobile'] = '0';
         }
 
-        if (empty($options['spotim_id']) && !empty($options['spotim_power'])) {
-            $options['spotim_power'] = '0';
-        }
-
         return $options;
     }
 
@@ -120,8 +116,7 @@ if (is_admin()) {
 } else {
     add_action('wp_footer', function () {
         $spotim = new SpotIM_Options();
-
-        if ($spotim->options['spotim_power']) {
+        if (!empty($spotim->options['spotim_id'])) {
             $spotim->addTemplate(__DIR__.'/views/embed.html', $spotim->options);
         }
     });
