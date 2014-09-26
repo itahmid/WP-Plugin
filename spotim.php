@@ -77,6 +77,10 @@ class SpotIM_Options extends FormHelper {
                     $args['options'] = $field->select_options;
                 }
 
+                if (isset($field->description)) {
+                    $args['description'] = $field->description;
+                }
+
                 add_settings_field(
                     $field->id,
                     $field->title,

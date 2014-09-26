@@ -23,6 +23,10 @@ abstract class FormHelper extends UtilsHelper {
             break;
         }
 
+        if (isset($field['description'])) {
+            $template .= '<p class="description">'. $field['description'] .'</p>';
+        }
+
         return $this->echoOutput($template, $echo);
     }
 
