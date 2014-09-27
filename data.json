@@ -51,7 +51,7 @@
             "title": "Rules",
             "description": "Section for you to decide on where to put your Spot.",
             "callback": "rules_view",
-            "fields": [
+            "fields.example": [
                 {
                     "id": "spotim_rule_param",
                     "type": "select",
@@ -72,7 +72,10 @@
                     "type": "select",
                     "title": "",
                     "callback": "addField",
-                    "section": "spotim_rules_section"
+                    "section": "spotim_rules_section",
+                    "select_options": {
+                        "None": "none"
+                    }
                 },
                 {
                     "id": "spotim_rule_status",

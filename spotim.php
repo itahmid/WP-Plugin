@@ -25,6 +25,7 @@
 
 require_once(__DIR__ . '/helpers/utils.php');
 require_once(__DIR__ . '/helpers/form.php');
+require_once(__DIR__ . '/helpers/rules.php');
 
 class SpotIM_Options extends FormHelper {
 
@@ -38,8 +39,14 @@ class SpotIM_Options extends FormHelper {
         $this->options = get_option($this->json_settings->option_name);
 
         if (is_admin()) {
+            add_action('admin_enqueue_scripts', array($this, 'enqueue_and_register_my_scripts'));
+
             $this->register_form($this->json_settings);
         }
+    }
+
+    public function enqueue_and_register_my_scripts() {
+        wp_enqueue_script('spot_im_admin', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery'));
     }
 
     public function add_menu_page() {
@@ -97,6 +104,10 @@ class SpotIM_Options extends FormHelper {
         }
     }
 
+    public function rules_test() {
+        return !empty($this->options['spotim_rules']) ? RulesHelper::test($this->options['spotim_rules']) : false;
+    }
+
     public function validate_form($options) {
 
         if (empty($options['spotim_mobile'])) {
@@ -128,7 +139,7 @@ if (is_admin()) {
 } else {
     add_action('wp_footer', function () {
         $spotim = new SpotIM_Options();
-        if (!empty($spotim->options['spotim_id'])) {
+        if (!empty($spotim->options['spotim_id']) && $spotim->rules_test()) {
             $spotim->addTemplate(__DIR__.'/views/embed.html', $spotim->options);
         }
     });

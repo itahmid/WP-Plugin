@@ -26,4 +26,8 @@ abstract class UtilsHelper {
 
         return $content;
     }
+
+    public function SortById($a, $b) {
+        return strcmp($a['id'] ,$b['id']);
+    }
 }
