@@ -30,7 +30,7 @@
                         "Right": "right",
                         "Left": "left"
                     },
-                    "description": "Where you want to position your Spot, on the Right or Left side of your website?"
+                    "description": "Where you want to position your Spot, on the Right or Left bottom corner of your website?"
                 },
                 {
                     "id": "spotim_state",
