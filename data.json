@@ -53,15 +53,34 @@
             "callback": "rules_view",
             "fields": [
                 {
-                    "id": "spotim_state",
+                    "id": "spotim_rule_param",
                     "type": "select",
-                    "title": "State",
+                    "title": "",
                     "callback": "addField",
                     "section": "spotim_rules_section",
                     "select_options": {
-                        "Open": "spot-state",
-                        "Close": "notices-closed-state"
+                        "All": "all",
+                        "Post Type": "post_type",
+                        "Post": "post",
+                        "Category": "category",
+                        "Page": "page",
+                        "Template": "template"
                     }
+                },
+                {
+                    "id": "spotim_rule_value",
+                    "type": "select",
+                    "title": "",
+                    "callback": "addField",
+                    "section": "spotim_rules_section"
+                },
+                {
+                    "id": "spotim_rule_status",
+                    "type": "radio",
+                    "title": "",
+                    "callback": "addField",
+                    "section": "spotim_rules_section",
+                    "values": ["Show", "Hide"]
                 }
             ]
         }
