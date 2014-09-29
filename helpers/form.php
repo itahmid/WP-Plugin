@@ -19,7 +19,7 @@ abstract class FormHelper extends UtilsHelper {
             break;
             case 'text':
             default:
-                $template = '<input name="'. $field['group'] .'['. $field['id'] .']" type="'. $field['type'] .'" value="'. $field['value'] .'" />';
+                $template = '<input name="'. $field['group'] .'['. $field['id'] .']" type="'. $field['type'] .'" value="'. $field['value'] .'" autocomplete="off" />';
             break;
         }
 

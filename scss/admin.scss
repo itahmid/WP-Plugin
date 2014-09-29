@@ -1,0 +1,15 @@
+[name="spotim_options[spotim_id]"] {
+    width: 264px;
+}
+
+.spotim-rules-table {
+    [name="spotim_options[spotim-rules][param]"] {
+        width: 100px;
+    }
+
+    [name="spotim_options[spotim-rules][value]"] {
+        display: none;
+        // visibility: hidden;
+        width: 300px;
+    }
+}

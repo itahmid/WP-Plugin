@@ -26,6 +26,7 @@
 require_once(__DIR__ . '/helpers/utils.php');
 require_once(__DIR__ . '/helpers/form.php');
 require_once(__DIR__ . '/helpers/rules.php');
+require_once(__DIR__ . '/helpers/rules_options.php');
 
 class SpotIM_Options extends FormHelper {
 
@@ -40,13 +41,17 @@ class SpotIM_Options extends FormHelper {
 
         if (is_admin()) {
             add_action('admin_enqueue_scripts', array($this, 'enqueue_and_register_my_scripts'));
+            add_action('wp_ajax_spot_im_get_options', array($this, 'get_options'));
 
             $this->register_form($this->json_settings);
         }
     }
 
     public function enqueue_and_register_my_scripts() {
-        wp_enqueue_script('spot_im_admin', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery'));
+        wp_enqueue_script('spot_im_admin_js', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery', 'underscore'));
+        wp_localize_script('spot_im_admin_js', 'ajax_url', admin_url('admin-ajax.php'));
+        wp_register_style('spot_im_admin_css', plugin_dir_url( __FILE__ ) . 'css/admin.css', false, '1.1.0');
+        wp_enqueue_style( 'spot_im_admin_css' );
     }
 
     public function add_menu_page() {
@@ -104,6 +109,14 @@ class SpotIM_Options extends FormHelper {
         }
     }
 
+    public function get_options() {
+        $rules_options = new RulesOptionsHelper();
+
+        header('Content-Type: application/json');
+            echo json_encode($rules_options->get($_POST['rule']));
+        die();
+    }
+
     public function rules_test() {
         return !empty($this->options['spotim_rules']) ? RulesHelper::test($this->options['spotim_rules']) : false;
     }
@@ -143,4 +156,8 @@ if (is_admin()) {
             $spotim->addTemplate(__DIR__.'/views/embed.html', $spotim->options);
         }
     });
+}
+
+if (defined( 'DOING_AJAX' ) && DOING_AJAX) {
+
 }

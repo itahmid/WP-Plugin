@@ -1,0 +1,14 @@
+/* line 1, ../scss/admin.scss */
+[name="spotim_options[spotim_id]"] {
+  width: 264px;
+}
+
+/* line 6, ../scss/admin.scss */
+.spotim-rules-table [name="spotim_options[spotim-rules][param]"] {
+  width: 100px;
+}
+/* line 10, ../scss/admin.scss */
+.spotim-rules-table [name="spotim_options[spotim-rules][value]"] {
+  display: none;
+  width: 300px;
+}
