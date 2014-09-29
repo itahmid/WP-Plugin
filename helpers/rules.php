@@ -54,41 +54,4 @@ class RulesHelper extends UtilsHelper {
 
         return $results[size($results) - 1]['phrase'];
     }
-
-    public function getOptions($param) {
-        $options = array();
-
-        switch($param) {
-            case 'post_type':
-                $options = array(
-                    'post'=>'Post',
-                    'page'=>'Page'
-                );
-                break;
-            case 'post':
-                $posts = get_posts(array('posts_per_page' => -1));
-                foreach ($posts as $post) {
-                    $options[$post->ID] = $post->post_title;
-                }
-                break;
-            case 'category':
-                $categories = get_categories();
-                foreach ($categories as $category) {
-                    $options[$category->cat_ID] = $category->name;
-                }
-                break;
-            case 'page':
-                $pages = get_pages();
-                foreach ($pages as $page) {
-                    $options[$page->ID] = $parent .' '. $page->post_title;
-                }
-                break;
-            case 'template':
-                $templates = wp_get_theme()->get_page_templates();
-                if ($templates) {
-                    $options = ($templates);
-                }
-                break;
-        }
-    }
 }
