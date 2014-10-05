@@ -50,6 +50,7 @@ class SpotIM_Options extends FormHelper {
     public function enqueue_and_register_my_scripts() {
         wp_enqueue_script('spot_im_admin_js', plugin_dir_url( __FILE__ ) . 'js/admin.js', array( 'jquery', 'underscore'));
         wp_localize_script('spot_im_admin_js', 'ajax_url', admin_url('admin-ajax.php'));
+        wp_localize_script('spot_im_admin_js', 'rulesData', $this->options['rules']);
         wp_register_style('spot_im_admin_css', plugin_dir_url( __FILE__ ) . 'css/admin.css', false, '1.1.0');
         wp_enqueue_style( 'spot_im_admin_css' );
     }
@@ -122,11 +123,6 @@ class SpotIM_Options extends FormHelper {
     }
 
     public function validate_form($options) {
-
-        if (empty($options['spotim_mobile'])) {
-            $options['spotim_mobile'] = '0';
-        }
-
         return $options;
     }
 
