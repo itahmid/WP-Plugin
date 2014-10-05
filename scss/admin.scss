@@ -1,15 +1,61 @@
+$prefix: '.spot-im';
+
 [name="spotim_options[spotim_id]"] {
     width: 264px;
 }
 
-.spotim-rules-table {
-    [name="spotim_options[spotim-rules][param]"] {
+#{$prefix}-rules-table {
+    margin: 15px auto 20px;
+
+    #{$prefix}-row:first-child #{$prefix}-delete {
+        display: none;
+    }
+
+    #{$prefix}-row td {
+        padding: 5px 10px;
+
+    }
+
+    #{$prefix}-rules, #{$prefix}-options, #{$prefix}-visible, #{$prefix}-delete {
+        display: inline-block;
+        vertical-align: middle;
+
+        &:before, &:after {
+            display: none;
+            font-size: 0;
+            line-height: 0;
+            box-sizing: border-box;
+        }
+    }
+
+    #{$prefix}-rules {
         width: 100px;
     }
 
-    [name="spotim_options[spotim-rules][value]"] {
-        display: none;
-        // visibility: hidden;
+    #{$prefix}-options {
+        margin-right: 5px;
         width: 300px;
     }
+
+    // #{$prefix}-visible {
+    // }
+
+    #{$prefix}-delete {
+        background-image: inline-image('../images/delete.png');
+        opacity: 0.3;
+        height: 16px;
+        margin-left: 3px;
+        overflow: hidden;
+        text-indent: -99em;
+        width: 16px;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+#{$prefix}-add {
+    display: inline-block;
+    margin-bottom: 15px;
 }

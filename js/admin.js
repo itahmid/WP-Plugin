@@ -1,27 +1,37 @@
 jQuery(document).ready(function($) {
-    $('.spotim-rules-table').each(function(){
-        var that = $(this);
-        that.find('[name="spotim_options[spotim-rules][param]"]').on('change', function($event) {
-            var data = {
+    var prefix = 'spot-im-',
+        prefixClass = '.' + prefix,
+        rulesTable = $(prefixClass + 'rules-table');
+
+    rulesTable.on(prefix + 'getOptions', function($event, selector) {
+       var rule = $(selector),
+            data = {
                 action: 'spot_im_get_options',
-                rule: $(this).val()
+                rule: rule.val()
             };
 
-            $.post(ajax_url, data, function(options) {
-                var select = that.find('[name="spotim_options[spotim-rules][value]"]');
+        $.get(ajax_url, data, function(options) {
+            var select = rule.parent().find(prefixClass + 'options');
 
-                if (_.isEmpty(options)) {
-                    select.css('display', 'none');
-                    select.empty();
-                } else {
-                    select.css('display', 'block');
-                    select.empty();
+            if (_.isEmpty(options)) {
+                select.prop('disabled', true);
+                select.empty();
+            } else {
+                select.prop('disabled', false);
+                select.empty();
 
-                    _.each(options, function(value, key) {
-                        select.append('<option value="' + key + '">' + value + '</option>');
-                    });
-                }
-            });
+                _.each(options, function(value, key) {
+                    select.append('<option value="' + key + '">' + value + '</option>');
+                });
+            }
+        });
+    });
+
+    rulesTable.each(function() {
+        var that = $(this);
+
+        that.find(prefixClass + 'rules').on('change', function($event) {
+            rulesTable.trigger(prefix + 'getOptions', $(this));
         })
 
         that.find('.button').on('click', function($event) {
@@ -29,11 +39,32 @@ jQuery(document).ready(function($) {
                 .addClass('active')
                 .siblings('.button')
                     .removeClass('active')
-                    .end()
-                .siblings('[name="spotim_options[spotim-rules][visible]"]')
+                .end()
+                .siblings(prefixClass + 'visible')
                     .attr('value', $(this).attr('value'));
 
             $event.preventDefault();
         });
+
+        that.find(prefixClass + 'delete').on('click', function($event) {
+            $(this).parents(prefixClass + 'row').remove();
+
+            $event.preventDefault();
+        });
+    });
+
+    $(prefixClass + 'add').on('click', function($event) {
+        var cloneRow = rulesTable.find(prefixClass + 'row:last').clone(true),
+            rulesSelect = cloneRow.find(prefixClass + 'rules');
+            rulesValue = rulesTable.find(prefixClass + 'row:last ' + prefixClass + 'rules  option:selected').attr('value');
+
+        cloneRow
+            .find(prefixClass + 'options').prop('disabled', false).empty().end()
+            .find(prefixClass + 'rules').attr('value', rulesValue).end()
+            rulesTable.trigger(prefix + 'getOptions', rulesSelect);
+
+            cloneRow.appendTo(rulesTable);
+
+        $event.preventDefault();
     });
 });

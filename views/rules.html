@@ -1,9 +1,9 @@
 <p class="description">Section for you to decide on where to put your Spot.</p>
-<table class="form-table spotim-rules-table">
+<table class="form-table spot-im-rules-table">
     <tbody>
-        <tr>
+        <tr class="spot-im-row">
             <td>
-                <select name="spotim_options[spotim-rules][param]" class="">
+                <select name="spotim_options[spotim-rules][param]" class="spot-im-rules">
                     <option value="all">All</option>
                     <option value="post_type">Post Type</option>
                     <option value="post">Post</option>
@@ -11,16 +11,21 @@
                     <option value="page">Page</option>
                     <option value="template">Template</option>
                 </select>
-                <select name="spotim_options[spotim-rules][value]" class="">
-                    <option value="post">Post</option>
-                    <option value="page">Page</option>
+
+                <select
+                    name="spotim_options[spotim-rules][value]"
+                    class="spot-im-options"
+                    disabled>
                 </select>
-                <input type="hidden" name="spotim_options[spotim-rules][visible]" value="1">
+
+                <input type="hidden" name="spotim_options[spotim-rules][visible]" class="spot-im-visible" value="1">
                 <button type="button" class="button button-secondary active" value="1">Show</button>
                 <button type="button" class="button button-secondary" value="0">Hide</button>
+
+                <a href="#" class="spot-im-delete">Delete</a>
             </td>
         </tr>
     </tbody>
 </table>
 
-<a href="#" class="add-new-h2">Add New</a>
+<a href="#" class="add-new-h2 spot-im-add">Add New</a>

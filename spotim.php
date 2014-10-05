@@ -113,7 +113,7 @@ class SpotIM_Options extends FormHelper {
         $rules_options = new RulesOptionsHelper();
 
         header('Content-Type: application/json');
-            echo json_encode($rules_options->get($_POST['rule']));
+            echo json_encode($rules_options->get($_GET['rule']));
         die();
     }
 
