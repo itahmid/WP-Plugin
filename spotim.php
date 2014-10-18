@@ -23,10 +23,10 @@
  *
  */
 
-require_once(__DIR__ . '/helpers/utils.php');
-require_once(__DIR__ . '/helpers/form.php');
-require_once(__DIR__ . '/helpers/rules.php');
-require_once(__DIR__ . '/helpers/rules_options.php');
+require_once(dirname(__FILE__) . '/helpers/utils.php');
+require_once(dirname(__FILE__) . '/helpers/form.php');
+require_once(dirname(__FILE__) . '/helpers/rules.php');
+require_once(dirname(__FILE__) . '/helpers/rules_options.php');
 
 class SpotIM_Options extends FormHelper {
 
@@ -34,7 +34,7 @@ class SpotIM_Options extends FormHelper {
 
     public function __construct() {
         $this->json_settings = json_decode(
-            file_get_contents( __DIR__ . '/data.json', true)
+            file_get_contents( dirname(__FILE__) . '/data.json', true)
         );
 
         $this->options = get_option($this->json_settings->option_name);
@@ -128,30 +128,39 @@ class SpotIM_Options extends FormHelper {
 
     // Views
     public function admin_view() {
-        $this->addView(__DIR__.'/views/options.php');
+        $this->addView(dirname(__FILE__) . '/views/options.php');
     }
 
     public function rules_view() {
-        $this->addTemplate(__DIR__.'/views/rules.html');
+        $this->addTemplate(dirname(__FILE__) . '/views/rules.html');
+    }
+}
+
+
+
+
+function spotim_admin_menu() {
+    $spotim = new SpotIM_Options();
+    $spotim->add_menu_page();
+}
+
+function spotim_admin_init() {
+    new SpotIM_Options();
+}
+
+function spotim_wp_footer() {
+    $spotim = new SpotIM_Options();
+
+    if (!empty($spotim->options['spotim_id']) && $spotim->rules_test()) {
+        $spotim->addTemplate(dirname(__FILE__) . '/views/embed.html', $spotim->options);
     }
 }
 
 if (is_admin()) {
-    add_action('admin_menu', function () {
-        $spotim = new SpotIM_Options();
-        $spotim->add_menu_page();
-    });
-
-    add_action('admin_init', function () {
-            new SpotIM_Options();
-    });
+    add_action('admin_menu', 'spotim_admin_menu');
+    add_action('admin_init', 'spotim_admin_init');
 } else {
-    add_action('wp_footer', function () {
-        $spotim = new SpotIM_Options();
-        if (!empty($spotim->options['spotim_id']) && $spotim->rules_test()) {
-            $spotim->addTemplate(__DIR__.'/views/embed.html', $spotim->options);
-        }
-    });
+    add_action('wp_footer', 'spotim_wp_footer');
 }
 
 // if (defined( 'DOING_AJAX' ) && DOING_AJAX) {
