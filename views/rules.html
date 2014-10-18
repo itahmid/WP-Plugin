@@ -1,31 +1,29 @@
 <p class="description">Section for you to decide on where to put your Spot.</p>
-<table class="form-table spot-im-rules-table">
-    <tbody>
-        <tr class="spot-im-row">
-            <td>
-                <select name="spotim_options[rules][0][param]" class="spot-im-rules">
-                    <option value="all">All</option>
-                    <option value="post_type">Post Type</option>
-                    <option value="post">Post</option>
-                    <option value="category">Category</option>
-                    <option value="page">Page</option>
-                    <option value="template">Template</option>
-                </select>
-
-                <select
-                    name="spotim_options[rules][0][value]"
-                    class="spot-im-options"
-                    disabled>
-                </select>
-
-                <input type="hidden" name="spotim_options[rules][0][visible]" class="spot-im-visible" value="1">
-                <button type="button" class="button button-secondary active" value="1">Show</button>
-                <button type="button" class="button button-secondary" value="0">Hide</button>
-
-                <a href="#" class="spot-im-delete">Delete</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+<table class="form-table spot-im-rules-table"></table>
 <a href="#" class="add-new-h2 spot-im-add">Add New</a>
+
+<script type="templateRuleRow">
+    <tr class="spot-im-row">
+    <td>
+        <select name="spotim_options[rules][0][param]" class="spot-im-param">
+            <option value="all">All</option>
+            <option value="post_type">Post Type</option>
+            <option value="post">Post</option>
+            <option value="category">Category</option>
+            <option value="page">Page</option>
+            <option value="template">Template</option>
+        </select>
+
+        <select
+            name="spotim_options[rules][0][value]"
+            class="spot-im-value">
+        </select>
+
+        <input type="hidden" name="spotim_options[rules][0][visible]" class="spot-im-visible" value="1">
+        <button type="button" class="button button-secondary active" value="1">Show</button>
+        <button type="button" class="button button-secondary" value="0">Hide</button>
+
+        <a href="#" class="spot-im-delete">Delete</a>
+    </td>
+</tr>
+</script>

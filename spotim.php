@@ -41,7 +41,7 @@ class SpotIM_Options extends FormHelper {
 
         if (is_admin()) {
             add_action('admin_enqueue_scripts', array($this, 'enqueue_and_register_my_scripts'));
-            add_action('wp_ajax_spot_im_get_options', array($this, 'get_options'));
+            add_action('wp_ajax_spot_im_get_value_options', array($this, 'get_value_options'));
 
             $this->register_form($this->json_settings);
         }
@@ -110,11 +110,11 @@ class SpotIM_Options extends FormHelper {
         }
     }
 
-    public function get_options() {
+    public function get_value_options() {
         $rules_options = new RulesOptionsHelper();
 
         header('Content-Type: application/json');
-            echo json_encode($rules_options->get($_GET['rule']));
+            echo json_encode($rules_options->get($_GET['param']));
         die();
     }
 
@@ -154,6 +154,6 @@ if (is_admin()) {
     });
 }
 
-if (defined( 'DOING_AJAX' ) && DOING_AJAX) {
+// if (defined( 'DOING_AJAX' ) && DOING_AJAX) {
 
-}
+// }

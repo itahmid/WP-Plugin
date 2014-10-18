@@ -18,7 +18,7 @@
                     "title": "Spot's ID",
                     "callback": "addField",
                     "section": "spotim_main_section",
-                    "description": "Find your Spot's ID at the <a href=\"http://spot.im/create\" target=\"_blank\">Spot management dashboard</a>.</br> Don't have an account? <a href=\"http://spot.im/create\" target=\"_blank\">Create one</a> for free!"
+                    "description": "Find your Spot's ID at the <a href=\"http://spot.im/spots\" target=\"_blank\">Spot management dashboard</a>.</br> Don't have an account? <a href=\"http://spot.im/spots\" target=\"_blank\">Create one</a> for free!"
                 },
                 {
                     "id": "spotim_position",

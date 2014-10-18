@@ -16,7 +16,7 @@ $prefix: '.spot-im';
 
     }
 
-    #{$prefix}-rules, #{$prefix}-options, #{$prefix}-visible, #{$prefix}-delete {
+    #{$prefix}-param, #{$prefix}-value, #{$prefix}-visible, #{$prefix}-delete {
         display: inline-block;
         vertical-align: middle;
 
@@ -28,11 +28,11 @@ $prefix: '.spot-im';
         }
     }
 
-    #{$prefix}-rules {
-        width: 100px;
+    #{$prefix}-param {
+        width:value;
     }
 
-    #{$prefix}-options {
+    #{$prefix}-value {
         margin-right: 5px;
         width: 300px;
     }
