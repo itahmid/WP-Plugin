@@ -119,7 +119,7 @@ class SpotIM_Options extends FormHelper {
     }
 
     public function rules_test() {
-        return !empty($this->options['spotim_rules']) ? RulesHelper::test($this->options['spotim_rules']) : false;
+        return !empty($this->options['rules']) ? RulesHelper::test($this->options['rules']) : false;
     }
 
     public function validate_form($options) {
@@ -135,9 +135,6 @@ class SpotIM_Options extends FormHelper {
         $this->addTemplate(dirname(__FILE__) . '/views/rules.html');
     }
 }
-
-
-
 
 function spotim_admin_menu() {
     $spotim = new SpotIM_Options();

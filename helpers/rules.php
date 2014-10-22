@@ -39,6 +39,7 @@ class RulesHelper extends UtilsHelper {
     }
 
     public function test($data) {
+                $this->died($data);
         $results = array();
 
         foreach($data as $item) {
