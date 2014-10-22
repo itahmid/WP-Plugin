@@ -6,14 +6,14 @@
  * @package   Spot_IM
  * @author      Spot.IM (@Spot_IM) <support@spot.im>
  * @license     GPLv2
- * @link          http://www.spot.im
+ * @link          https://www.spot.im
  * @copyright 2014 Spot.IM Ltd.
  *
  * @wordpress-plugin
  * Plugin Name:     Spot.IM
- * Plugin URI:         http://www.spot.im
+ * Plugin URI:         https://www.spot.im
  * Description:       Official Spot.IM WP Plugin
- * Version:             1.1.0
+ * Version:             1.2.0
  * Author:              Spot.IM (@Spot_IM)
  * Author URI:        https://github.com/SpotIM
  * License:             GPLv2
@@ -23,8 +23,8 @@
  *
  */
 
-require_once(__DIR__ . '/helpers/utils.php');
-require_once(__DIR__ . '/helpers/form.php');
+require_once(dirname(__FILE__) . '/helpers/utils.php');
+require_once(dirname(__FILE__) . '/helpers/form.php');
 
 class SpotIM_Options extends FormHelper {
 
@@ -32,7 +32,7 @@ class SpotIM_Options extends FormHelper {
 
     public function __construct() {
         $this->json_settings = json_decode(
-            file_get_contents( __DIR__ . '/data.json', true)
+            file_get_contents( dirname(__FILE__) . '/data.json', true)
         );
 
         $this->options = get_option($this->json_settings->option_name);
@@ -94,34 +94,34 @@ class SpotIM_Options extends FormHelper {
     }
 
     public function validate_form($options) {
-
-        if (empty($options['spotim_mobile'])) {
-            $options['spotim_mobile'] = '0';
-        }
-
         return $options;
     }
 
     // Views
     public function admin_view() {
-        $this->addView(__DIR__.'/views/options.php');
+        $this->addView(dirname(__FILE__) . '/views/options.php');
+    }
+}
+
+function spotim_admin_menu() {
+    $spotim = new SpotIM_Options();
+    $spotim->add_menu_page();
+}
+
+function spotim_admin_init() {
+    new SpotIM_Options();
+}
+
+function spotim_wp_footer() {
+    $spotim = new SpotIM_Options();
+    if (!empty($spotim->options['spotim_id'])) {
+        $spotim->addTemplate(dirname(__FILE__) . '/views/embed.html', $spotim->options);
     }
 }
 
 if (is_admin()) {
-    add_action('admin_menu', function () {
-        $spotim = new SpotIM_Options();
-        $spotim->add_menu_page();
-    });
-
-    add_action('admin_init', function () {
-            new SpotIM_Options();
-    });
+    add_action('admin_menu', 'spotim_admin_menu');
+    add_action('admin_init', 'spotim_admin_init');
 } else {
-    add_action('wp_footer', function () {
-        $spotim = new SpotIM_Options();
-        if (!empty($spotim->options['spotim_id'])) {
-            $spotim->addTemplate(__DIR__.'/views/embed.html', $spotim->options);
-        }
-    });
+    add_action('wp_footer', 'spotim_wp_footer');
 }
