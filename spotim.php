@@ -59,7 +59,7 @@ class SpotIM_Options extends FormHelper {
             add_settings_section(
                 $section->id,
                 $section->title,
-                function(){},
+                array($this, 'like_anonymous_function_but_not'),
                 'spotim.php'
             );
 
@@ -92,6 +92,8 @@ class SpotIM_Options extends FormHelper {
             }
         }
     }
+
+    public function like_anonymous_function_but_not() {}
 
     public function validate_form($options) {
         return $options;
