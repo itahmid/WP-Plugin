@@ -13,7 +13,7 @@
  * Plugin Name:     Spot.IM
  * Plugin URI:         https://www.spot.im
  * Description:       Official Spot.IM WP Plugin
- * Version:             1.2.0
+ * Version:             1.2
  * Author:              Spot.IM (@Spot_IM)
  * Author URI:        https://github.com/SpotIM
  * License:             GPLv2
